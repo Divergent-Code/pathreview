@@ -29,7 +29,7 @@ I ran `_detect_sections` on resume text whose headings had leading spaces and ta
 
 **PLAN.md link:** https://github.com/Divergent-Code/pathreview/blob/fix/147-resume-section-whitespace/PLAN.md
 
-**Loom walkthrough:** _(to add after recording)_
+**Loom walkthrough:** N/A — the walkthrough video is optional and is not part of the Week 8 grading rubric.
 
 **Blockers or open questions:**
 Haven't run the full `pytest` suite yet — the local Python venv isn't set up. I verified the fix by running the detection regex directly; will run `pytest` once the environment is built.
