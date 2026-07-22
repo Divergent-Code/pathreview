@@ -143,6 +143,34 @@ class TestResumeParser:
         assert any("education" in s for s in sections_lower)
         assert any("skills" in s for s in sections_lower)
 
+    def test_detect_sections_with_leading_whitespace(self, parser):
+        """Indented section headings should still be detected (issue #147)."""
+        text = "   Experience:\n   Senior Developer\n   Education:\n   BS Computer Science"
+        sections = [s.lower() for s in parser._detect_sections(text)]
+
+        assert any("experience" in s for s in sections)
+        assert any("education" in s for s in sections)
+
+    def test_detect_sections_with_tab_indentation(self, parser):
+        """Tab-indented section headings should still be detected (issue #147)."""
+        text = "\tExperience:\n\tSenior Developer\n\tSkills: Python, JavaScript"
+        sections = [s.lower() for s in parser._detect_sections(text)]
+
+        assert any("experience" in s for s in sections)
+        assert any("skills" in s for s in sections)
+
+    def test_detect_sections_ignores_midsentence_keyword(self, parser):
+        """Section keywords used mid-sentence must NOT be detected (issue #147).
+
+        Guards the whitespace fix against over-loosening the anchor into a
+        false positive.
+        """
+        text = "My proudest experience: shipping a product. My education: ongoing."
+        sections = [s.lower() for s in parser._detect_sections(text)]
+
+        assert not any("experience" in s for s in sections)
+        assert not any("education" in s for s in sections)
+
     def test_strip_markdown_syntax(self, parser):
         """Test markdown syntax stripping."""
         markdown_text = """
