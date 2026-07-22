@@ -18,4 +18,18 @@ I chose a Tier 1 issue because this is my first contribution to a large codebase
 
 **Setup confirmation:** [ ] App runs locally at localhost:5173
 
-**Cohort ledger:** [ ] Issue added to cohort ledger
+**Cohort ledger:** [x] Issue added to cohort ledger
+
+## Week 8 — Reproduction & solution planning
+
+**Reproduction commit link:** https://github.com/Divergent-Code/pathreview/commit/b4be6f9
+
+**Reproduction summary:**
+I ran `_detect_sections` on resume text whose headings had leading spaces and tabs — it returned zero sections, while the same headings without indentation are detected. I captured this as unit tests (the indented and tab cases fail on the original code).
+
+**PLAN.md link:** https://github.com/Divergent-Code/pathreview/blob/fix/147-resume-section-whitespace/PLAN.md
+
+**Loom walkthrough:** _(to add after recording)_
+
+**Blockers or open questions:**
+Haven't run the full `pytest` suite yet — the local Python venv isn't set up. I verified the fix by running the detection regex directly; will run `pytest` once the environment is built.
