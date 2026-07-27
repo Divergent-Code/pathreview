@@ -33,3 +33,10 @@ I ran `_detect_sections` on resume text whose headings had leading spaces and ta
 
 **Blockers or open questions:**
 Haven't run the full `pytest` suite yet — the local Python venv isn't set up. I verified the fix by running the detection regex directly; will run `pytest` once the environment is built.
+
+## Week 9 — PR readiness
+
+**Supporting fix — alembic import shadow:**
+While setting up the local environment to get PR-ready, I found and fixed a separate bug in the repo. There was a stray `alembic/__init__.py` that turned the migrations folder into an importable Python package. Whenever a process ran from the repo root, that local package **shadowed the installed `alembic` distribution**, so `from alembic import command` (and other submodules) resolved to the migrations folder and failed. Standard Alembic loads `env.py` and `versions/` by path and doesn't need that file, so I removed it. I verified the real `alembic` now resolves correctly and the project's own migrations still work (`alembic heads` → `002 (head)`).
+
+**Fix commit:** https://github.com/Divergent-Code/pathreview/commit/cdd1ac7
