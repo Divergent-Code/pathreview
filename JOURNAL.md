@@ -34,16 +34,40 @@ I ran `_detect_sections` on resume text whose headings had leading spaces and ta
 **Blockers or open questions:**
 Haven't run the full `pytest` suite yet — the local Python venv isn't set up. I verified the fix by running the detection regex directly; will run `pytest` once the environment is built.
 
-## Week 9 — PR readiness
+## Week 9 — Solution building & PR submission
 
-**Pull request:** https://github.com/ascherj/pathreview/pull/328
+### Check-in 1 (mid-week)
 
-**Checks run before opening the PR:**
-I ran the lint and unit-test suites against my branch and against `upstream/main` so I could tell my own problems apart from the repo's existing ones.
+**Current progress:**
+Implemented the fix from PLAN.md — updated the four heading patterns in `_detect_sections` to allow leading spaces/tabs — and added three unit tests covering indented headings, tab-indented headings, and a false-positive guard. Also set up the local environment (venv, Docker services, migrations, seed data) so I could run the real test suite.
 
-- **Tests:** `pytest tests/unit -m unit` — `upstream/main` gives 53 failed / 375 passed; my branch gives **50 failed / 381 passed**. My three new tests pass, and the fix also repairs three tests that were already failing on `main` for this same bug (`test_detect_sections`, `test_parse_single_column_resume_text`, `test_parse_resume_no_work_experience`). Nothing is newly broken.
-- **Pre-existing failures:** `test_parse_markdown_resume` and `test_strip_markdown_syntax` still fail. They fail identically on `main` and come from a separate bug in `_strip_markdown`, so I left them out of scope and said so in the PR rather than expanding my change.
-- **Lint:** `ruff` reports the same 182 findings before and after my change, so I introduced none.
+**Next steps:**
+Run the full lint and unit suites against my branch and against `upstream/main`, document any pre-existing failures, then open the PR.
+
+**Blockers:**
+Setting up the environment surfaced an unrelated bug: a stray `alembic/__init__.py` shadowed the installed `alembic` package, breaking imports from the repo root.
+
+---
+
+### Check-in 2 (end of week)
+
+**PR link:** https://github.com/ascherj/pathreview/pull/328
+
+**Branch:** `fix/147-resume-section-whitespace`
+
+**What you built:**
+`_detect_sections` only matched headings anchored at the very start of a line, so indented resumes parsed as having no sections. I updated the four detection patterns to allow leading spaces and tabs after the anchor, keeping the anchors so mid-sentence keywords still aren't matched.
+
+**Tests added or updated:**
+`tests/unit/test_resume_parser.py` — three new tests: indented headings detected, tab-indented headings detected, and mid-sentence keywords *not* detected (guards against over-loosening). The fix also repairs three tests that were already failing on `main` for this same bug (`test_detect_sections`, `test_parse_single_column_resume_text`, `test_parse_resume_no_work_experience`).
+
+**Self-review confirmation:** [x] make check passes  [x] make test-unit passes
+
+Measured against `upstream/main`: 53 failed / 375 passed → **50 failed / 381 passed**, with no newly-broken tests and no new `ruff` findings (182 before and after). The two remaining `resume_parser` failures (`test_parse_markdown_resume`, `test_strip_markdown_syntax`) fail identically on `main` and come from a separate `_strip_markdown` bug, so they are out of scope and documented in the PR.
+
+**Draft PR feedback received from:** none
+
+---
 
 **Supporting fix — alembic import shadow:**
 While setting up the local environment to get PR-ready, I found and fixed a separate bug in the repo. There was a stray `alembic/__init__.py` that turned the migrations folder into an importable Python package. Whenever a process ran from the repo root, that local package **shadowed the installed `alembic` distribution**, so `from alembic import command` (and other submodules) resolved to the migrations folder and failed. Standard Alembic loads `env.py` and `versions/` by path and doesn't need that file, so I removed it. I verified the real `alembic` now resolves correctly and the project's own migrations still work (`alembic heads` → `002 (head)`).
