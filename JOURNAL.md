@@ -36,6 +36,15 @@ Haven't run the full `pytest` suite yet — the local Python venv isn't set up. 
 
 ## Week 9 — PR readiness
 
+**Pull request:** https://github.com/ascherj/pathreview/pull/328
+
+**Checks run before opening the PR:**
+I ran the lint and unit-test suites against my branch and against `upstream/main` so I could tell my own problems apart from the repo's existing ones.
+
+- **Tests:** `pytest tests/unit -m unit` — `upstream/main` gives 53 failed / 375 passed; my branch gives **50 failed / 381 passed**. My three new tests pass, and the fix also repairs three tests that were already failing on `main` for this same bug (`test_detect_sections`, `test_parse_single_column_resume_text`, `test_parse_resume_no_work_experience`). Nothing is newly broken.
+- **Pre-existing failures:** `test_parse_markdown_resume` and `test_strip_markdown_syntax` still fail. They fail identically on `main` and come from a separate bug in `_strip_markdown`, so I left them out of scope and said so in the PR rather than expanding my change.
+- **Lint:** `ruff` reports the same 182 findings before and after my change, so I introduced none.
+
 **Supporting fix — alembic import shadow:**
 While setting up the local environment to get PR-ready, I found and fixed a separate bug in the repo. There was a stray `alembic/__init__.py` that turned the migrations folder into an importable Python package. Whenever a process ran from the repo root, that local package **shadowed the installed `alembic` distribution**, so `from alembic import command` (and other submodules) resolved to the migrations folder and failed. Standard Alembic loads `env.py` and `versions/` by path and doesn't need that file, so I removed it. I verified the real `alembic` now resolves correctly and the project's own migrations still work (`alembic heads` → `002 (head)`).
 
