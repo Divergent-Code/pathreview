@@ -86,9 +86,10 @@ While setting up the local environment to get PR-ready, I found and fixed a sepa
 No maintainer feedback arrived. PR #328 sat open from July 29 with zero comments,
 and I asked for review twice in the class Slack — `#tech-help` on July 30 and
 `#a201-community-su26` on August 2 — with no response to either. For context,
-issue #147 carries 46 comments and not one is from the maintainer; they are all
-students claiming the issue. The repository was not declining to review my PR
-specifically, it was not responding to anyone.
+issue #147 carries 46 comments, all of them students claiming the issue. That is
+the shape of a teaching repository during a cohort — one issue drawing dozens of
+contributors at once — rather than anything specific to my PR, and the course
+notes that maintainer review is not part of the Summer 2026 model.
 
 What I did get was a peer review, from @novamapp on August 2, whose own PR
 (#559) I had reviewed earlier the same day.
@@ -185,9 +186,11 @@ On #583 the author said they would fold the counts-alongside-rates change into
 their next push. On #223 there has still been no reply.
 
 The thing I did not expect is that this is where my own feedback came from.
-@novamapp reviewed my PR the same day I reviewed theirs. I had spent a week
-waiting on a maintainer who was never going to answer, and the thing that
-actually produced a review was reviewing someone else.
+@novamapp reviewed my PR the same day I reviewed theirs. Waiting produced
+nothing for a week; reviewing produced a review within hours. In a cohort all
+working the same repository at the same time, the people best placed to read my
+change carefully were the other students — and the way to get read was to read
+someone else first.
 
 ---
 
