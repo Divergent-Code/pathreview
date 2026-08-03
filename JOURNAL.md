@@ -167,6 +167,28 @@ percentage than 14 samples support.
 In all three I also said what I thought was done well, because a review that is
 only criticism is not much use.
 
+**What came of them.** Two of the three authors replied, and I checked their
+branches rather than taking the replies at face value.
+
+On #559, three of my four points were acted on. `phone_intl` is now
+`\+[0-9](?:[-.\s]?[0-9]){7,14}\b`, which consumes one digit per repetition and
+so has nothing to backtrack through; `email` has been restored above the phone
+patterns; the 4.6 MB video is gone behind a new `.gitignore` rule; and they
+added regression tests so the same class of change cannot slip back in. The
+fourth point they declined, and they were right to. On the `\s`-matches-newline
+finding they wrote that they were keeping it "since I agree that over-redaction
+is the safer direction for a scrubber" — using the framing from my own comment
+to disagree with the suggestion attached to it. A reviewer whose every
+suggestion is accepted is not being read carefully.
+
+On #583 the author said they would fold the counts-alongside-rates change into
+their next push. On #223 there has still been no reply.
+
+The thing I did not expect is that this is where my own feedback came from.
+@novamapp reviewed my PR the same day I reviewed theirs. I had spent a week
+waiting on a maintainer who was never going to answer, and the thing that
+actually produced a review was reviewing someone else.
+
 ---
 
 ### Reflection
