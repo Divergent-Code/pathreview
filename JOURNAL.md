@@ -131,10 +131,11 @@ first. Nothing arrived while I was waiting. Something arrived the same day I
 reviewed someone else's work.
 
 Before that, there was nothing to respond to on my own PR, so I went the other
-direction and reviewed three classmates' — PRs #223, #559 and #583, all on
-August 2. Mine is the only comment on each of them.
+direction and reviewed classmates' work instead — PRs #223, #559 and #583 on
+August 2, and `TianxinS/pathreview#1` on August 3. Mine is the only comment on
+each of them.
 
-I did not want to comment on code I had only read, so I ran all three first.
+I did not want to comment on code I had only read, so I ran all of them first.
 
 **PR #223** (issue #157) corrects a mislabeled test fixture. I fetched the
 branch, confirmed `rag/evaluator/relevance_scorer.py` was identical between
@@ -165,7 +166,23 @@ correctness: the ground-truth set is 14 samples, so `false_negative_rate=50.0%`
 on the origin signal is 1 of 2, and a maintainer will read more precision into a
 percentage than 14 samples support.
 
-In all three I also said what I thought was done well, because a review that is
+**`TianxinS/pathreview#1`** (issue #34) adds an LLM re-ranking step to the
+retrieval pipeline. The safety design is careful — the factory returns `None`
+without an API key so the feature is opt-in, a failed call falls back to the
+original blended score rather than dropping the chunk, and it adds no new
+dependency. My finding was in the score parser: it takes the first number in the
+model's response and clamps it to `[0, 1]`, so `"I would rate this 8 out of 10"`
+scores 1.0, and so does `"Chunk 3 scores 0.4"` — a preamble that happens to
+contain a number becomes maximum relevance. I ran those cases rather than
+reasoning about the regex, because the failure only shows up on inputs the
+prompt is trying to prevent.
+
+There was a second problem with that PR that I raised privately instead. It is
+the kind of mistake that is quick to fix and unpleasant to have pointed out in
+public, and the review itself did not need it. Choosing the channel turned out
+to be part of giving the feedback.
+
+In all four I also said what I thought was done well, because a review that is
 only criticism is not much use.
 
 **What came of them.** Two of the three authors replied, and I checked their
@@ -183,7 +200,8 @@ to disagree with the suggestion attached to it. A reviewer whose every
 suggestion is accepted is not being read carefully.
 
 On #583 the author said they would fold the counts-alongside-rates change into
-their next push. On #223 there has still been no reply.
+their next push. On #223 and on `TianxinS/pathreview#1` there has been no reply
+yet.
 
 The thing I did not expect is that this is where my own feedback came from.
 @novamapp reviewed my PR the same day I reviewed theirs. Waiting produced
@@ -234,11 +252,12 @@ the captured log line rather than trusting the title. My issue, #147, pointed at
 repository, the same week, and only one of the two issue reports pointed at the
 right file. The only thing that separated them was reproducing before believing.
 
-Reviewing three PRs made the same point three times. In every one, the thing
-worth saying only existed because I ran the code — an exact score of 0.5, a
-regex that takes 95 seconds on a 30-digit string, a percentage resting on two
-samples. None of those are visible in a diff. Reading a change tells you what it
-was meant to do; running it tells you what it does.
+Reviewing four PRs made the same point four times. In every one, the thing worth
+saying only existed because I ran the code — an exact score of 0.5, a regex that
+takes 95 seconds on a 30-digit string, a percentage resting on two samples, a
+score parser that reads "8 out of 10" as perfect relevance. None of those are
+visible in a diff. Reading a change tells you what it was meant to do; running
+it tells you what it does.
 
 The third thing is that scope is a judgment, not a rule. Two failures in the
 same file I was editing — `test_parse_markdown_resume` and
