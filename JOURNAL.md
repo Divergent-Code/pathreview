@@ -183,8 +183,8 @@ to be part of giving the feedback.
 In all four I also said what I thought was done well, because a review that is
 only criticism is not much use.
 
-**What came of them.** Two of the three authors replied, and I checked their
-branches rather than taking the replies at face value.
+**What came of them.** Three of the four authors replied, and all three changed
+their code. I checked the diffs rather than taking the replies at face value.
 
 On #559, three of my four points were acted on. `phone_intl` is now
 `\+[0-9](?:[-.\s]?[0-9]){7,14}\b`, which consumes one digit per repetition and
@@ -197,8 +197,21 @@ is the safer direction for a scrubber" — using the framing from my own comment
 to disagree with the suggestion attached to it. A reviewer whose every
 suggestion is accepted is not being read carefully.
 
-On #583 the author said they would fold the counts-alongside-rates change into
-their next push. On #223 and #860 there has been no reply yet.
+On #583 both points landed in commit `123fb47`. Every rate now prints its counts
+— `false_negative_rate=50.0% (1/2)`, `[education] 100.0% (4/4)`, with `n/a (0/0)`
+where the denominator is zero — with three new tests covering the rendering, and
+the accidental `package-lock.json` deletions are reverted. The author also
+pushed back on the part of my point I had left open: showing counts mitigates a
+14-sample ground truth rather than fixing it, and expanding the labeled set to
+40–50 samples belongs in its own PR. That is the correct call, and it is scoping
+rather than deferring.
+
+On #223 the assertion is now `assert score == 0.5` instead of the original range,
+with a comment explaining why. The author ran the scorer directly before making
+the change rather than trusting my number — which is the same verification step
+I had used to find it, arrived at independently.
+
+On #860 there has been no reply yet.
 
 The thing I did not expect is that this is where my own feedback came from.
 @novamapp reviewed my PR the same day I reviewed theirs. Waiting produced
