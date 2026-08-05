@@ -132,8 +132,7 @@ reviewed someone else's work.
 
 Before that, there was nothing to respond to on my own PR, so I went the other
 direction and reviewed classmates' work instead — PRs #223, #559 and #583 on
-August 2, and `TianxinS/pathreview#1` on August 3. Mine is the only comment on
-each of them.
+August 2, and #860 on August 4. Mine is the only comment on each of them.
 
 I did not want to comment on code I had only read, so I ran all of them first.
 
@@ -166,8 +165,7 @@ correctness: the ground-truth set is 14 samples, so `false_negative_rate=50.0%`
 on the origin signal is 1 of 2, and a maintainer will read more precision into a
 percentage than 14 samples support.
 
-**`TianxinS/pathreview#1`** (issue #34) adds an LLM re-ranking step to the
-retrieval pipeline. The safety design is careful — the factory returns `None`
+**PR #860** (issue #34) adds an LLM re-ranking step to the retrieval pipeline. The safety design is careful — the factory returns `None`
 without an API key so the feature is opt-in, a failed call falls back to the
 original blended score rather than dropping the chunk, and it adds no new
 dependency. My finding was in the score parser: it takes the first number in the
@@ -200,8 +198,7 @@ to disagree with the suggestion attached to it. A reviewer whose every
 suggestion is accepted is not being read carefully.
 
 On #583 the author said they would fold the counts-alongside-rates change into
-their next push. On #223 and on `TianxinS/pathreview#1` there has been no reply
-yet.
+their next push. On #223 and #860 there has been no reply yet.
 
 The thing I did not expect is that this is where my own feedback came from.
 @novamapp reviewed my PR the same day I reviewed theirs. Waiting produced
