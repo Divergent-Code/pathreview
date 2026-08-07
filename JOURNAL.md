@@ -183,8 +183,9 @@ to be part of giving the feedback.
 In all four I also said what I thought was done well, because a review that is
 only criticism is not much use.
 
-**What came of them.** Three of the four authors replied, and all three changed
-their code. I checked the diffs rather than taking the replies at face value.
+**What came of them.** All four authors acted on the review — three replied in
+the thread, and the fourth answered in code. I checked the diffs rather than
+taking the replies at face value.
 
 On #559, three of my four points were acted on. `phone_intl` is now
 `\+[0-9](?:[-.\s]?[0-9]){7,14}\b`, which consumes one digit per repetition and
@@ -211,7 +212,12 @@ with a comment explaining why. The author ran the scorer directly before making
 the change rather than trusting my number — which is the same verification step
 I had used to find it, arrived at independently.
 
-On #860 there has been no reply yet.
+On #860 there was no reply in the thread, but commit `4c552661` addresses all
+three code findings. `_parse_score` is replaced by a JSON-array parser that
+routes out-of-range values to the original blended score instead of clamping
+them to 1.0; the per-chunk calls are batched into a single numbered prompt; and
+`temperature=0` is set. The test suite went from 9 tests to 21, with a
+`TestParseScores` class aimed at the parsing cases the review named.
 
 The thing I did not expect is that this is where my own feedback came from.
 @novamapp reviewed my PR the same day I reviewed theirs. Waiting produced
